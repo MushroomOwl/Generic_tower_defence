@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d7a1b255d91faa4baa0c7c750ccb36c, type: 3}
+  m_Name: props_Demon
+  m_EditorClassIdentifier: 
+  _Name: Demon
+  _AnimController: {fileID: 9100000, guid: 603e948d30ee8f84ca5abfcf615945d8, type: 2}
+  _AnimSpeed: 0.3
+  _Sprite: {fileID: -24024570, guid: 7545b7ca00ad5e342b564dc1af05c656, type: 3}
+  _MovementSpeed: 0.6
+  _MaxHP: 90
+  _Size: 1.2

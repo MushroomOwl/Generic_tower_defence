@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d7a1b255d91faa4baa0c7c750ccb36c, type: 3}
+  m_Name: props_FlyingHelm
+  m_EditorClassIdentifier: 
+  _Name: Flying Helm
+  _AnimController: {fileID: 9100000, guid: 11467dad44463f4498c7629416abb957, type: 2}
+  _AnimSpeed: 0.5
+  _Sprite: {fileID: 21300000, guid: 7d41bff50ab7ae242ba5c155bec2d87d, type: 3}
+  _MovementSpeed: 0.7
+  _MaxHP: 15
+  _Size: 1
