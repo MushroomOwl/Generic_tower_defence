@@ -41,6 +41,24 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ground
+    uniqueID: 963896771
+    locked: 0
+  - name: Grass
+    uniqueID: 2263618241
+    locked: 0
   - name: EnemySprites
     uniqueID: 817378347
+    locked: 0
+  - name: Obstacles
+    uniqueID: 3308505991
+    locked: 0
+  - name: Towers
+    uniqueID: 2147541041
+    locked: 0
+  - name: Projectiles
+    uniqueID: 1494435203
+    locked: 0
+  - name: Overlay
+    uniqueID: 2780272367
     locked: 0

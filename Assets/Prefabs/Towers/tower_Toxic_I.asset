@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bd386403f8ef7d40b846b84af0dd8ee, type: 3}
+  m_Name: tower_Toxic_I
+  m_EditorClassIdentifier: 
+  _VisualModel: {fileID: -1916200186, guid: 1089887246646f2449c74a6e4fc31206, type: 3}
+  _WeaponMountPoint: {x: 0, y: 0.7}
+  _Weapon: {fileID: 11400000, guid: 1082d9f92a159c04f90136a986255047, type: 2}
+  _Range: 4
+  _Cost: 35
+  _NextLevelTower: {fileID: 0}

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bd386403f8ef7d40b846b84af0dd8ee, type: 3}
+  m_Name: tower_Arbalest_I
+  m_EditorClassIdentifier: 
+  _VisualModel: {fileID: -171671883, guid: 96b5c4b41d6f8d944b0e07b4de1ff0dd, type: 3}
+  _WeaponMountPoint: {x: 0, y: 0.7}
+  _Weapon: {fileID: 11400000, guid: ab53622dfde0a8e46a0159129106b16d, type: 2}
+  _Range: 3
+  _Cost: 10
+  _NextLevelTower: {fileID: 0}

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0211b6bc1ea35584e90776a2c4bf8e63, type: 3}
+  m_Name: weapon_Magic_I
+  m_EditorClassIdentifier: 
+  _ShotsPerSecond: 0.5
+  _VisualModel: {fileID: 1075361062, guid: 7b37fb7bd2549a54ebaffd9a032e192a, type: 3}
+  _ProjectilePrefab: {fileID: 7801565955737707877, guid: ac53bfb1b03aa364facff152b7ef7ae2, type: 3}
+  _PDamage: 20
+  _PVelocity: 3
+  _PTrajectory: 0

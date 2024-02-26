@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bd386403f8ef7d40b846b84af0dd8ee, type: 3}
+  m_Name: tower_Magic_I
+  m_EditorClassIdentifier: 
+  _VisualModel: {fileID: -316516230, guid: 080a113315766d34c8a8caff7fa06004, type: 3}
+  _WeaponMountPoint: {x: 0, y: 0.7}
+  _Weapon: {fileID: 11400000, guid: db8e47d27ea27ad4b8781fd081226acc, type: 2}
+  _Range: 2
+  _Cost: 20
+  _NextLevelTower: {fileID: 0}

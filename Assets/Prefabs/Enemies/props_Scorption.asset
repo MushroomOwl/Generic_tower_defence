@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c1bdbe6cf458be49a2d6ab81558e5ff, type: 3}
+  m_Name: props_Scorption
+  m_EditorClassIdentifier: 
+  _Name: Scorpion
+  _AnimController: {fileID: 9100000, guid: 0d016d05f7f0c754a97c3f252b4f9543, type: 2}
+  _AnimSpeed: 1
+  _Sprite: {fileID: 80716685, guid: 797fa4072d975d546954bd03d6722c46, type: 3}
+  _SpriteFlipped: 1
+  _MovementSpeed: 1.2
+  _MaxHP: 40
+  _Size: 1
+  _Reward: 5
