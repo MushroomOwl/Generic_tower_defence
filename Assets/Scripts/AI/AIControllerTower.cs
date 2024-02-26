@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace TD
 {
+    [RequireComponent(typeof(Tower))]
     public class AIControllerTower : EntityWithTimer
     {
         public enum AIState
         {
             Targeting
         }
-
 
         [SerializeField] private AIState _State;
         [SerializeField] private Tower _Tower;
@@ -30,6 +30,11 @@ namespace TD
                     TargetingActions();
                     break;
             }
+        }
+
+        public void SetDetectionRadius(float radius)
+        {
+            _Radius = radius;
         }
 
         void TargetingActions()

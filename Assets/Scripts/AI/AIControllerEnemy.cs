@@ -63,8 +63,7 @@ namespace TD
             {
                 if (_CurrentPoint >= _PatrolPath.Length - 1)
                 {
-                    // TODO reach player gate logic
-                    Debug.Log("Reached destination");
+                    _Enemy.GoalReached();
                     Destroy(gameObject);
                     return;
                 } else

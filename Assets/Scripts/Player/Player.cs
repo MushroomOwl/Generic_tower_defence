@@ -1,37 +1,42 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using static TD.EnemiesEventsBus;
 
 namespace TD
 {
     public class Player : MonoSingleton<Player>
     {
-        [SerializeField] private int _Score;
-        [SerializeField] private int _KillCount;
+        [SerializeField] private PlayerEventsBus _PlayerEventsBus;
+        [SerializeField] private EnemiesEventsBus _EnemiesEventsBus;
+
+        [SerializeField] private int _Gold;
         [SerializeField] private int _NumLives;
 
-        private UnityEvent _ScoreChanged = new UnityEvent();
-        private UnityEvent _KillsChanged = new UnityEvent();
-        private UnityEvent _LivesChanged = new UnityEvent();
-
-        public static UnityEvent ScoreChanged => _Instance._ScoreChanged;
-        public static UnityEvent KillsChanged => _Instance._KillsChanged;
-        public static UnityEvent LivesChanged => _Instance._LivesChanged;
-
-        public static int Score => _Instance._Score;
-        public static int KillCount => _Instance._KillCount;
+        public static int Gold => _Instance._Gold;
         public static int NumLives => _Instance._NumLives;
 
-        public static void AddKill()
+        protected override void Awake()
         {
-            _Instance._KillCount++;
-            _Instance._KillsChanged?.Invoke();
+            base.Awake();
+            _EnemiesEventsBus.EnemyKilled += (object sender, OnEnemyKilledArgs args) => ChangeGold(args.reward);
+            _EnemiesEventsBus.EnemyReachedBase.AddListener(() => ChangeLives(-1));
         }
 
-        public static void AddScore(int amount)
+        private void Start()
         {
-            _Instance._Score += amount;
-            _Instance._ScoreChanged?.Invoke();
+            _PlayerEventsBus.OnGoldChanged();
+            _PlayerEventsBus.OnLivesChanged();
+        }
+
+        public void ChangeGold(int amount)
+        {
+            _Gold += amount;
+            _PlayerEventsBus.OnGoldChanged();
+        }
+
+        public void ChangeLives(int amount)
+        {
+            _NumLives += amount;
+            _PlayerEventsBus.OnLivesChanged();
         }
     }
 }

@@ -1,20 +1,31 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace TD
 {
     public class InputHandler : MonoSingleton<InputHandler>
     {
+        [SerializeField] private InputBus _InputBus;
+
         private void Update()
         {
-            ControlKeyboard();
+            KeyboardActions();
+            MouseActions();
         }
 
-        private void ControlKeyboard()
+        private void KeyboardActions()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+        }
+
+        private void MouseActions()
+        {
+            if (Input.GetMouseButtonDown((int)Utilities.MouseButton.Left))
             {
-                GameManager.TogglePause();
+                _InputBus.OnLMBClick();
+            }
+
+            if (Input.GetMouseButtonDown((int)Utilities.MouseButton.Right))
+            {
+                _InputBus.OnBuildCall();
             }
         }
     }

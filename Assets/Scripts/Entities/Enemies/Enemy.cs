@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 namespace TD
@@ -6,6 +7,13 @@ namespace TD
     [RequireComponent(typeof(Rigidbody2D))]
     public class Enemy: Destructable
     {
+        [SerializeField] private EnemiesEventsBus _EnemiesEventBus;
+
+        // + animation_parameters +
+        private const string _animVarFloatVSpeed = "VSpeed";
+        private const string _animVarBoolVGHSpeed = "VSpeedGHSpeed";
+        // - animation_parameters - 
+
         [SerializeField] private EnemyProps _Setup;
         [SerializeField] private SpriteRenderer _Renderer;
         [SerializeField] private Animator _Animator;
@@ -18,10 +26,11 @@ namespace TD
 
             _Renderer.sprite = _Setup.Sprite;
             _Animator.runtimeAnimatorController = _Setup.AnimController;
-            _Animator.speed = _Setup.AnimSpeed;
             
             ChangeMaxHP(_Setup.MaxHP);
             transform.localScale = new Vector3(_Setup.Size, _Setup.Size, _Setup.Size);
+
+            _OnHPZero.AddListener(() => _EnemiesEventBus.OnEnemyKilled(_Setup.Reward));
         }
 
         public void MakeAStep(Vector2 direction)
@@ -31,10 +40,19 @@ namespace TD
                 return;
             }
 
+
             Vector2 step = direction.normalized * _Setup.MovementSpeed * Time.deltaTime;
             transform.position = new Vector3(transform.position.x + step.x, transform.position.y + step.y);
 
-            _Renderer.flipX = step.x < 0;
+            _Animator.SetFloat(_animVarFloatVSpeed, direction.normalized.y);
+            _Animator.SetBool(_animVarBoolVGHSpeed, Mathf.Abs(direction.y) > Mathf.Abs(direction.x)); 
+
+            _Renderer.flipX = _Setup.SpriteFlipped ? step.x > 0 : step.x < 0;
+        }
+
+        public void GoalReached()
+        {
+            _EnemiesEventBus.OnEnemyReachedBase();
         }
     }
 

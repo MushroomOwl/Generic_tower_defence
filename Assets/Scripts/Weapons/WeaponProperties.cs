@@ -4,16 +4,20 @@ namespace TD
 {
     public enum ProjectileTrajectory {
         StrictFollow,
-        StraightLine
+        StraightLine,
+        StraightLineGround
     }
 
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "weapon_")]
     public sealed class WeaponProperties : ScriptableObject
     {
         [Header("Weapon properties")]
         
         [SerializeField] private float _ShotsPerSecond;
         public float ShotsPerSecond => _ShotsPerSecond;
+
+        [SerializeField] private Sprite _VisualModel;
+        public Sprite VisualModel => _VisualModel;
 
         [Header("Projectile visual model")]
 

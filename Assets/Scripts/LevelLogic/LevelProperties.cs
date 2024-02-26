@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TD
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "level_")]
     public class LevelProperties : ScriptableObject
     {
         [SerializeField] private string _Title;

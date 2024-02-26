@@ -8,7 +8,10 @@ namespace TD
     public class Destructable : MonoBehaviour
     {
         private static HashSet<Destructable> _AllDestructables;
-        public static IReadOnlyCollection<Destructable> AllDestructables => _AllDestructables;
+        public static IReadOnlyCollection<Destructable> AllDestructables
+        {
+            get { return _AllDestructables ?? (_AllDestructables = new HashSet<Destructable>()); }
+        }
 
         [SerializeField] protected bool _Indestructable;
         public bool IsIndestructable => _Indestructable;

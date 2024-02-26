@@ -1,6 +1,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace TD
 {
@@ -27,6 +28,14 @@ namespace TD
         private bool _isLevelLost = false;
         public bool isLevelLost => _isLevelLost;
 
+        protected override void Awake()
+        {
+            base.Awake();
+            // STUB
+            _LevelFailed.AddListener(() => SceneManager.LoadScene(0));
+        }
+
+
         private void Start()
         {
             foreach (var condition in _WinConditions)
@@ -37,8 +46,9 @@ namespace TD
             {
                 condition.ConditionValueChanged.AddListener(CheckLevelLosing);
             }
-            _LevelCompleted.AddListener(GameManager.FinishLevel);
-            _LevelFailed.AddListener(GameManager.FailLevel);
+            // TODO: At the moment not reqruired
+            //_LevelCompleted.AddListener(GameManager.FinishLevel);
+            //_LevelFailed.AddListener(GameManager.FailLevel);
         }
 
         private void CheckLevelCompletion()

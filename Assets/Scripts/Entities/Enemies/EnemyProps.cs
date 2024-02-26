@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace TD
 {
-    [CreateAssetMenu]
-    public class EnemyProps: ScriptableObject
+    [CreateAssetMenu(fileName = "enemy_")]
+    public class EnemyProps : ScriptableObject
     {
         [SerializeField] private string _Name;
         public string Name => _Name;
@@ -18,6 +18,9 @@ namespace TD
         [SerializeField] private Sprite _Sprite;
         public Sprite Sprite => _Sprite;
 
+        [SerializeField] private bool _SpriteFlipped;
+        public bool SpriteFlipped => _SpriteFlipped;
+
         [SerializeField] private float _MovementSpeed = 1;
         public float MovementSpeed => _MovementSpeed;
 
@@ -26,5 +29,8 @@ namespace TD
 
         [SerializeField] private float _Size = 1;
         public float Size => _Size;
+
+        [SerializeField] private int _Reward = 1;
+        public int Reward => _Reward;
     }
 }

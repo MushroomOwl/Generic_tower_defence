@@ -5,6 +5,7 @@ namespace TD
     public class Weapon : MonoBehaviour
     {
         [SerializeField] private WeaponProperties _WeaponProperties;
+        [SerializeField] private SpriteRenderer _VisualModel;
 
         public WeaponProperties Loadout => _WeaponProperties;
 
@@ -52,8 +53,9 @@ namespace TD
 
         public void AssignLoadout(WeaponProperties props)
         {
-            _ReloadTimer = 0;
             _WeaponProperties = props;
+            _VisualModel.sprite = _WeaponProperties.VisualModel;
+            _ReloadTimer = 0;
         }
     }
 }
