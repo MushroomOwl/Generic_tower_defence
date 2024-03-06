@@ -4,7 +4,9 @@ namespace TD
 {
     public class InputHandler : MonoSingleton<InputHandler>
     {
-        [SerializeField] private InputBus _InputBus;
+        [SerializeField] private GameEvent _OnLMBClick;
+        [SerializeField] private GameEvent _OnBuildGridCall;
+        [SerializeField] private GameEvent _OnPauseCall;
 
         private void Update()
         {
@@ -14,18 +16,22 @@ namespace TD
 
         private void KeyboardActions()
         {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                _OnPauseCall?.Raise(this, null);
+            }
         }
 
         private void MouseActions()
         {
             if (Input.GetMouseButtonDown((int)Utilities.MouseButton.Left))
             {
-                _InputBus.OnLMBClick();
+                _OnLMBClick?.Raise(this, null);
             }
 
             if (Input.GetMouseButtonDown((int)Utilities.MouseButton.Right))
             {
-                _InputBus.OnBuildCall();
+                _OnBuildGridCall?.Raise(this, null);
             }
         }
     }

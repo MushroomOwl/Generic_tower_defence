@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0211b6bc1ea35584e90776a2c4bf8e63, type: 3}
   m_Name: weapon_Arbalest_I
   m_EditorClassIdentifier: 
-  _ShotsPerSecond: 1
+  _ShotsPerSecond: 0.8
   _VisualModel: {fileID: 177780929, guid: 4bcf22a15187bd44ab88c9f7028ce721, type: 3}
-  _ProjectilePrefab: {fileID: 7801565955737707877, guid: 58187e57f78327949958965b121ffafd, type: 3}
-  _PDamage: 10
+  _ProjectileVisualModel: {fileID: 1055297121, guid: d1475caaf2109324ea06a1b5870a564d, type: 3}
+  _PDamage: 40
   _PVelocity: 12
+  _PAngVelocity: 0
+  _PImpactEffect: {fileID: 0}
   _PTrajectory: 1

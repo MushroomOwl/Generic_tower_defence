@@ -1,13 +1,17 @@
 using TD;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TowerPanel : MonoBehaviour
+public class TowerPanel : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private PlayerEventsBus _PlayerEventBus;
-    [SerializeField] private UIEventsBus _UIEventsBus;
-    [SerializeField] private Button _btn;
     [SerializeField] private TowerProperties _TowerProps;
+
+    [SerializeField] private GameEvent _OnTowerBuildRequest;
+    [SerializeField] private GameEvent _OnTowerPanelHoverOn;
+    [SerializeField] private GameEvent _OnTowerPanelHoverOff;
+
+    [SerializeField] private Button _btn;
 
     [SerializeField] private Text _Cost;
     [SerializeField] private Image _TowerWeaponIcon;
@@ -17,23 +21,34 @@ public class TowerPanel : MonoBehaviour
         _TowerProps = props;
         _Cost.text = _TowerProps.Cost.ToString();
         _TowerWeaponIcon.sprite = _TowerProps.Weapon.VisualModel;
-
-        _PlayerEventBus.GoldChanged.AddListener(UpdateButtonAvailability);
     }
 
-    private void OnEnable()
+    public void UpdateButtonAvailability(Component caller, object data)
     {
-        UpdateButtonAvailability();
-    }
-
-    private void UpdateButtonAvailability()
-    {
-        _btn.interactable = Player.Gold >= _TowerProps.Cost;
+        if (data is not int)
+        {
+            return;
+        }
+        _btn.interactable = (int)data >= _TowerProps.Cost;
     }
 
     public void OnBtnClick()
     {
-        // TODO position should be saved in map. Here only tower properties should be transfered
-        _UIEventsBus.OnRequestBuildTower(Utilities.GetMouse2DWorldPosition(), _TowerProps);
+        _OnTowerBuildRequest?.Raise(this, (Utilities.GetMouse2DWorldPosition(), _TowerProps));
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        _OnTowerPanelHoverOn?.Raise(this, null);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        _OnTowerPanelHoverOff?.Raise(this, null);
+    }
+
+    public TowerProperties GetAssignedTowerProperties()
+    {
+        return _TowerProps;
     }
 }

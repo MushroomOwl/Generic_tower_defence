@@ -2,115 +2,144 @@ using UnityEngine;
 
 namespace TD
 {
+    public enum ProjectileTrajectory
+    {
+        StrictFollow,
+        StraightLine,
+        StraightLineGround
+    }
+
     public class Projectile : TempEntity
     {
         [SerializeField] private float _Velocity;
         [SerializeField] private float _AngularVelocityDeg;
         [SerializeField] private int _Damage;
-        [SerializeField] private Destructable _Source;
-        [SerializeField] private bool _HasCollider;
 
-        public Destructable Source => _Source;
+        [SerializeField] private Destructable _Target;
+        [SerializeField] private Vector3 _TargetPositionOnFire;
+        [SerializeField] private ProjectileTrajectory _Trajectory;
+        
+        [SerializeField] private SpriteRenderer _VisualModel;
 
-        void Start()
-        {
-            Collider2D collider = GetComponent<Collider2D>();
-            if (collider != null)
-            {
-                _HasCollider = true;
-            }
-        }
+        [SerializeField] private GameObject _ImpactEffect;
 
         public void ApplySetup(WeaponProperties props)
         {
             _Velocity = props.PVelocity;
+            _AngularVelocityDeg = props.PAngVelocity;
             _Damage = props.PDamage;
+            _VisualModel.sprite = props.ProjectileVisualModel;
+            _Trajectory = props.PTrajectory;
+            _ImpactEffect = props.PImpactEffect;
+        }
+
+        public void SetTarget(Destructable target)
+        {
+            _Target = target;
+            _TargetPositionOnFire = target.gameObject.transform.position;
         }
 
         private void Update()
         {
+            Vector2 step = GetNextStep();
+
+            (bool isHit, Destructable dest, Vector3 hitPoint) = CheckOnHit(step.magnitude);
+
+            if (!isHit)
+            {
+                transform.position += new Vector3(step.x, step.y, 0);
+                return;
+            }
+
+            OnHit(dest, hitPoint);
+        }
+
+        // TODO: function like this shouldn't change rotation itself
+        private Vector2 GetNextStep()
+        {
             float stepLength = Time.deltaTime * _Velocity;
 
-            if (_AngularVelocityDeg != 0)
+            if (_Target == null)
             {
-                float angleDeg = _AngularVelocityDeg * Time.deltaTime;
+                _Trajectory = ProjectileTrajectory.StraightLine;
+            }
+
+            if (_Trajectory == ProjectileTrajectory.StrictFollow)
+            {
+                Vector2 direction = _Target.transform.position - transform.position;
+                direction.Normalize();
+                float rotationDeg = Mathf.Asin(Vector3.Cross(transform.up, direction).z) * Mathf.Rad2Deg;
+                float angleDeg = Utilities.MathfClampAbs(_AngularVelocityDeg * Time.deltaTime, Mathf.Abs(rotationDeg));
                 transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + angleDeg);
             }
 
-            Vector2 step = transform.up * stepLength;
+            return transform.up * stepLength;
+        }
 
-            if (_HasCollider)
+        private (bool, Destructable, Vector3) CheckOnHit(float stepLength)
+        {
+            switch (_Trajectory)
             {
-                transform.position += new Vector3(step.x, step.y, 0);
-                return;
+                case ProjectileTrajectory.StraightLine:
+                case ProjectileTrajectory.StrictFollow:
+                    return CheckDirectHit(stepLength);
+                case ProjectileTrajectory.StraightLineGround:
+                    return CheckPositionHit(stepLength);
+                default:
+                    return CheckDirectHit(stepLength);
+            }
+        }
+
+        private (bool, Destructable, Vector3) CheckPositionHit(float stepLength)
+        {
+            Vector3 distance = gameObject.transform.position - _TargetPositionOnFire;
+
+            if (distance.magnitude > stepLength)
+            {
+                return (false, null, Vector3.zero);
             }
 
+            return (true, null, _TargetPositionOnFire);
+        }
+
+        private (bool, Destructable, Vector3) CheckDirectHit(float stepLength)
+        {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, stepLength);
 
-            if (hit)
+            if (!hit)
             {
-                Destructable dest = hit.collider.GetComponentInParent<Destructable>();
-
-                if (dest == null)
-                {
-                    transform.position += new Vector3(step.x, step.y, 0);
-                    return;
-                }
-
-                if (dest != null)
-                {
-                    //if (dest.FractionId == _Source.FractionId)
-                    //{
-                    //    transform.position += new Vector3(step.x, step.y, 0);
-                    //    return;
-                    //}
-
-                    dest.ApplyDamage(_Damage);
-                }
-
-                transform.position += new Vector3(hit.point.x - transform.position.x, hit.point.y - transform.position.y, 0);
-                OnProjectileImpact(hit.collider, hit.point);
-
-                return;
+                return (false, null, Vector3.zero);
             }
-            else
+
+            Destructable dest = hit.collider.GetComponentInParent<Destructable>();
+
+            if (!dest)
             {
-                transform.position += new Vector3(step.x, step.y, 0);
+                return (false, null, Vector3.zero);
             }
+
+            return (true, dest, hit.point);
         }
 
-        public void SetAngularVelocityDeg(float vel)
+        private void OnHit(Destructable dest, Vector3 hitPoint)
         {
-            _AngularVelocityDeg = vel;
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            Destructable dest = collision.GetComponentInParent<Destructable>();
-
-            if (dest == null)
-            {
-                return;
-            }
-
             if (dest != null)
             {
-                //if (dest.FractionId == _Source.FractionId) return;
-
                 dest.ApplyDamage(_Damage);
             }
 
-            OnProjectileImpact(collision, transform.position);
+            transform.position += new Vector3(hitPoint.x - transform.position.x, hitPoint.y - transform.position.y, 0);
+            OnProjectileImpact();
         }
 
-        private void OnProjectileImpact(Collider2D col, Vector2 pos)
+        private void OnProjectileImpact()
         {
+            if (_ImpactEffect != null )
+            {
+                Instantiate(_ImpactEffect, gameObject.transform.position, Quaternion.identity);
+            }
+
             Destroy(gameObject);
-        }
-
-        public void SetSource(Destructable parent)
-        {
-            _Source = parent;
         }
     }
 }

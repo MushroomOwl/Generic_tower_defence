@@ -1,54 +1,63 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using TD;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
-using static TD.MapEventsBus;
+using UnityEngine.UI;
 
-public class BuildUI : MonoBehaviour
+namespace TD
 {
-    [SerializeField] private InputBus _InputBus;
-    [SerializeField] private MapEventsBus _MapEvents;
-
-    [SerializeField] private List<TowerProperties> _Towers;
-
-    [SerializeField] private TowerPanel _TowerPanelPrefab;
-
-    [SerializeField] private GameObject _PanelsAnchor;
-
-    private RectTransform _PanelsAnchorTransform;
-
-    public void Awake()
+    public class BuildUI : MonoBehaviour
     {
-        gameObject.SetActive(false);
+        [SerializeField] private List<TowerProperties> _Towers;
 
-        _MapEvents.HideBuilder.AddListener(SetInactive);
-        _MapEvents.BuilderGridClick += ShowBuilderUI;
+        [SerializeField] private TowerPanel _TowerPanelPrefab;
 
-        _PanelsAnchorTransform = _PanelsAnchor.GetComponent<RectTransform>();
+        [SerializeField] private GameObject _PanelsAnchor;
 
-        foreach (var props in _Towers)
+        [SerializeField] private Image _TowerRadiusSprite;
+
+        private RectTransform _PanelsAnchorTransform;
+
+        private void Awake()
         {
-            TowerPanel panel = Instantiate(_TowerPanelPrefab, _PanelsAnchor.transform);
-            panel.ApplySetup(props);
+            Debug.Log(DateTime.Now);
+            _PanelsAnchorTransform = _PanelsAnchor.GetComponent<RectTransform>();
+
+            foreach (var props in _Towers)
+            {
+                TowerPanel panel = Instantiate(_TowerPanelPrefab, _PanelsAnchor.transform);
+                panel.ApplySetup(props);
+            }
         }
-    }
 
-    private void OnDestroy()
-    {
-        _MapEvents.HideBuilder.RemoveListener(SetInactive);
-        _MapEvents.BuilderGridClick -= ShowBuilderUI;
-    }
+        private void Start()
+        {
+            _TowerRadiusSprite.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
 
-    private void SetInactive()
-    {
-        gameObject.SetActive(false);
-    }
+        public void ShowBuilderUI(Component Sender, object data)
+        {
+            if (data is not Vector2)
+            {
+                return;
+            }
 
-    public void ShowBuilderUI(object Sender, OnBuilderGridClickEventArgs args)
-    {
-        gameObject.SetActive(true);
-        _PanelsAnchorTransform.position = Utilities.WorldToScreenPosition(args.position);
+            gameObject.SetActive(true);
+            _PanelsAnchorTransform.position = Utilities.WorldToScreenPosition((Vector2)data);
+        }
+
+        public void ShowTowerRadius(Component caller, object data)
+        {
+            if (caller?.gameObject == null || caller is not TowerPanel)
+            {
+                return;
+            }
+
+            TowerProperties props = ((TowerPanel)caller).GetAssignedTowerProperties();
+
+            _TowerRadiusSprite.rectTransform.sizeDelta = new Vector2(props.Range * UISettings.PPU, props.Range * UISettings.PPU);
+            _TowerRadiusSprite.rectTransform.position = _PanelsAnchor.GetComponent<RectTransform>().position;
+            _TowerRadiusSprite.gameObject.SetActive(true);
+        }
     }
 }

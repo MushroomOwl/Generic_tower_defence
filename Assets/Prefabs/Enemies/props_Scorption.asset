@@ -17,7 +17,7 @@ MonoBehaviour:
   _AnimSpeed: 1
   _Sprite: {fileID: 80716685, guid: 797fa4072d975d546954bd03d6722c46, type: 3}
   _SpriteFlipped: 1
-  _MovementSpeed: 1.2
-  _MaxHP: 40
+  _MovementSpeed: 1.7
+  _MaxHP: 70
   _Size: 1
   _Reward: 5

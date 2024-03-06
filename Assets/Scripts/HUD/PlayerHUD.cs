@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TD;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,34 +9,69 @@ namespace TD
 {
     public class PlayerHUD : MonoBehaviour
     {
-        [SerializeField] private PlayerEventsBus _PlayerEvents;
         [SerializeField] private Text _CoinsDisplay;
         [SerializeField] private List<GameObject> _Lives;
+        [SerializeField] private Text _Timer;
+        [SerializeField] private GameObject _HUD;
 
-
-        void Awake()
+        private void Start()
         {
-            _PlayerEvents.LivesChanged.AddListener(UpdateLives);
-            _PlayerEvents.GoldChanged.AddListener(UpdateCoins);
+            _HUD.SetActive(true);
         }
 
-        private void UpdateLives()
+        public void UpdateLives(Component caller, object data)
         {
-            // TODO Improve optimisation
-            _Lives.ForEach((obj) => obj.SetActive(false));
-            if (Player.NumLives < 0)
+            if (data is not int)
             {
                 return;
             }
-            for (int i = 0; i < Player.NumLives; i++)
+
+            int lives = (int)data;
+
+            _Lives.ForEach((obj) => obj.SetActive(false));
+
+            if (lives < 0)
+            {
+                return;
+            }
+
+            for (int i = 0; i < lives; i++)
             {
                 _Lives[i].SetActive(true);
             }
         }
 
-        private void UpdateCoins()
+        public void UpdateCoins(Component caller, object data)
         {
-            _CoinsDisplay.text = Player.Gold.ToString();
+            if (data is not int)
+            {
+                return;
+            }
+
+            int coins = (int)data;
+
+            _CoinsDisplay.text = coins.ToString();
+        }
+
+        public void UpdateTimer(Component caller, object data)
+        {
+            if (data is not float)
+            {
+                return;
+            }
+
+            float time = (float)data;
+
+            int minutes = Mathf.FloorToInt(time / 60);
+            int seconds = Mathf.FloorToInt(time % 60);
+
+            string secondsStr = seconds.ToString();
+            if (secondsStr.Length < 2)
+            {
+                secondsStr = "0" + secondsStr;
+            }
+
+            _Timer.text = minutes + ":" + secondsStr;
         }
     }
 }

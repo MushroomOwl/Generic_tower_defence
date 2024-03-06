@@ -2,15 +2,27 @@ using UnityEngine;
 
 namespace TD
 {
-    public class LevelLoseConditionLives : LevelCondition
+    public class LevelLoseConditionLives : LevelCondition, ILevelCondition
     {
-        [SerializeField] private PlayerEventsBus _PlayerEvents;
+        private bool _Fulfilled = false;
 
-        private void Awake()
+        public void UpdateCondition(Component caller, object data)
         {
-            _PlayerEvents.LivesChanged.AddListener(() => _ConditionValueChanged?.Invoke());
+            if (data is not int) {
+                return;
+            }
+
+            int lives = (int)data;
+
+            bool fulfilled = lives <= 0;
+
+            if (_Fulfilled != fulfilled)
+            {
+                _Fulfilled = fulfilled;
+                _ConditionValueChanged?.Invoke();
+            }
         }
 
-        public override bool Fulfilled { get { return Player.NumLives <= 0; } }
+        public override bool Fulfilled => _Fulfilled;
     }
 }

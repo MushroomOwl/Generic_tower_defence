@@ -1,5 +1,4 @@
-﻿using Unity.VisualScripting;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace TD
@@ -7,7 +6,8 @@ namespace TD
     [RequireComponent(typeof(Rigidbody2D))]
     public class Enemy: Destructable
     {
-        [SerializeField] private EnemiesEventsBus _EnemiesEventBus;
+        [SerializeField] private GameEvent _OnEnemyKilled;
+        [SerializeField] private GameEvent _OnEnemyReachedGoal;
 
         // + animation_parameters +
         private const string _animVarFloatVSpeed = "VSpeed";
@@ -30,7 +30,7 @@ namespace TD
             ChangeMaxHP(_Setup.MaxHP);
             transform.localScale = new Vector3(_Setup.Size, _Setup.Size, _Setup.Size);
 
-            _OnHPZero.AddListener(() => _EnemiesEventBus.OnEnemyKilled(_Setup.Reward));
+            _OnHPZero.AddListener(() => _OnEnemyKilled.Raise(this, _Setup));
         }
 
         public void MakeAStep(Vector2 direction)
@@ -52,7 +52,7 @@ namespace TD
 
         public void GoalReached()
         {
-            _EnemiesEventBus.OnEnemyReachedBase();
+            _OnEnemyReachedGoal?.Raise(this, null);
         }
     }
 

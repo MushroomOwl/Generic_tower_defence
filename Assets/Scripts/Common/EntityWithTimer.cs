@@ -24,7 +24,7 @@ namespace TD
 
         private Dictionary<string, SimpleTimer> _Timers = new Dictionary<string, SimpleTimer>();
 
-        protected float TimeLeft(string timerName)
+        public float TimeLeft(string timerName)
         {
             if (!_Timers.ContainsKey(timerName))
             {

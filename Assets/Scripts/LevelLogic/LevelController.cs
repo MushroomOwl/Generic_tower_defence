@@ -5,39 +5,24 @@ using UnityEngine.SceneManagement;
 
 namespace TD
 {
-    public class LevelController : MonoSingleton<LevelController>
+    public class LevelController : MonoBehaviour
     {
-        private UnityEvent _LevelFailed = new UnityEvent();
-        public UnityEvent LevelFailed => _LevelFailed;
-
-        private UnityEvent _LevelCompleted = new UnityEvent();
-        public UnityEvent LevelCompletd => _LevelCompleted;
+        [SerializeField] private GameEvent _OnLevelFailed;
+        [SerializeField] private GameEvent _OnLevelCleared;
 
         [SerializeField] private LevelCondition[] _WinConditions;
         [SerializeField] private LevelCondition[] _LoseConditions;
 
         [SerializeField] private LevelProperties _LevelProps;
-        public static LevelProperties LevelProps => _Instance?._LevelProps;
 
-        private float _TimeSinceStart = 0f;
-        public static float TimeSinceStart => _Instance._TimeSinceStart;
-
-        private bool _isLevelCompleted = false;
-        public bool IsLevelCompleted => _isLevelCompleted;
-
-        private bool _isLevelLost = false;
-        public bool isLevelLost => _isLevelLost;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            // STUB
-            _LevelFailed.AddListener(() => SceneManager.LoadScene(0));
-        }
-
+        public bool IsLevelFailed { get; private set; }
+        public bool IsLevelCleared { get; private set; }
 
         private void Start()
         {
+            IsLevelFailed = false;
+            IsLevelCleared = false;
+
             foreach (var condition in _WinConditions)
             {
                 condition.ConditionValueChanged.AddListener(CheckLevelCompletion);
@@ -46,41 +31,28 @@ namespace TD
             {
                 condition.ConditionValueChanged.AddListener(CheckLevelLosing);
             }
-            // TODO: At the moment not reqruired
-            //_LevelCompleted.AddListener(GameManager.FinishLevel);
-            //_LevelFailed.AddListener(GameManager.FailLevel);
         }
 
         private void CheckLevelCompletion()
         {
-            bool isCompleted = _WinConditions.All(c => c.Fulfilled);
+            bool isCleared = _WinConditions.All(c => c.Fulfilled);
 
-            if (isCompleted && isCompleted != _isLevelCompleted)
+            if (isCleared && !IsLevelCleared)
             {
-                _isLevelCompleted = true;
-                _LevelCompleted?.Invoke();
+                IsLevelCleared = true;
+                _OnLevelCleared?.Raise(this, null);
             }
         }
 
         private void CheckLevelLosing()
         {
-            bool isLost = _LoseConditions.Any(c => c.Fulfilled);
+            bool isFailed = _LoseConditions.Any(c => c.Fulfilled);
 
-            if (isLost && isLost != _isLevelLost)
+            if (isFailed && !IsLevelFailed)
             {
-                _isLevelLost = true;
-                _LevelFailed?.Invoke();
+                IsLevelFailed = true;
+                _OnLevelFailed?.Raise(this, null);
             }
-        }
-
-        private void Update()
-        {
-            if (_isLevelCompleted || _isLevelLost)
-            {
-                return;
-            }
-
-            _TimeSinceStart += Time.deltaTime;
         }
     }
 }

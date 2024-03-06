@@ -1,7 +1,5 @@
-﻿using Unity.VisualScripting;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 namespace TD
 {
@@ -29,11 +27,6 @@ namespace TD
             Vector2 localCoordinatesDest = _WeaponMountPoint.transform.InverseTransformPoint(position);
             float angleToDestination = -Vector3.SignedAngle(localCoordinatesDest, Vector3.up, Vector3.forward);
             _WeaponMountPoint.Rotate(0, 0, angleToDestination);
-        }
-
-        public void Fire()
-        {
-            _Weapon.Fire();
         }
 
         public void Fire(Destructable target)

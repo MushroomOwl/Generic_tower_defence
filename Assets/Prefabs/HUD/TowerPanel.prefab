@@ -371,6 +371,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8104095192739666456}
   - component: {fileID: 1394903896647253651}
+  - component: {fileID: 5511245136028001170}
   m_Layer: 5
   m_Name: TowerPanel
   m_TagString: Untagged
@@ -413,9 +414,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a200133ee19354fb9f9eaf40d68b70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _PlayerEventBus: {fileID: 11400000, guid: 3ae9e6408f627ba489b58f2e530b6928, type: 2}
-  _UIEventsBus: {fileID: 11400000, guid: b4c5728b5108b174b91966258bb9c296, type: 2}
-  _btn: {fileID: 8099142324363225417}
   _TowerProps: {fileID: 0}
+  _OnTowerBuildRequest: {fileID: 11400000, guid: a67c5e872dbf7bd44a84b3ab003d68c0, type: 2}
+  _OnTowerPanelHoverOn: {fileID: 11400000, guid: c20899ec573281242976226e03256106, type: 2}
+  _OnTowerPanelHoverOff: {fileID: 11400000, guid: f45d5de8697b73a4d83180b8fde89c23, type: 2}
+  _btn: {fileID: 8099142324363225417}
   _Cost: {fileID: 5058209799642873478}
   _TowerWeaponIcon: {fileID: 435731080331835382}
+  _TowerRadiusShow: {fileID: 0}
+--- !u!114 &5511245136028001170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7651646429313270573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d50e78a4a67ecb4bbb674ec50199294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 2b3c5aaf91ce00f4f84e327119d1c87c, type: 2}
+  callback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1394903896647253651}
+        m_TargetAssemblyTypeName: TowerPanel, Assembly-CSharp
+        m_MethodName: UpdateButtonAvailability
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

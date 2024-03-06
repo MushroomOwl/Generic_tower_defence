@@ -1,19 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
-using static TD.UIEventsBus;
 
 namespace TD
 {
     public class TDMapManager : MonoBehaviour
     {
-        [SerializeField] private InputBus _InputBus;
-        [SerializeField] private MapEventsBus _MapEventsBus;
-        [SerializeField] private UIEventsBus _UIEventsBus;
-
         [SerializeField] private Tower _TowerPrefab;
 
         [SerializeField] private GridProps _GridSettings;
@@ -34,6 +27,11 @@ namespace TD
         [SerializeField] private TDTileProps[] _TilePropsReference;
 
         private Dictionary<TileBase, TDTileProps> _TileToProps;
+
+        [SerializeField] private GameEvent _OnHideBuilder;
+        [SerializeField] private GameEvent _OnShowBuilder;
+        [SerializeField] private GameEvent _OnBuilderGridClick;
+        [SerializeField] private GameEvent _OnTowerBuilt;
 
         protected void Initialize()
         {
@@ -99,12 +97,12 @@ namespace TD
         public void ToggleOverlay() {
             if (_BuildOverlay.gameObject.activeSelf)
             {
-                _MapEventsBus.OnHideBuilder();
+                _OnHideBuilder?.Raise(this, null);
                 _BuildOverlay.gameObject.SetActive(false);
                 _LockOverlay = false;
             } else
             {
-                _MapEventsBus.OnShowBuilder();
+                _OnShowBuilder?.Raise(this, null);
                 _BuildOverlay.gameObject.SetActive(true);
             }
         }
@@ -113,9 +111,6 @@ namespace TD
         {
             _GridSettings.ApplyTo(ref _UnityGrid);
             Initialize();
-            _InputBus.LMBClick.AddListener(OnMouseClick);
-            _InputBus.BuildCall.AddListener(ToggleOverlay);
-            _UIEventsBus.RequestBuildTower += (object sender, OnRequestBuildTowerArgs args) => BuildTower(args.position, args.towerProps);
         }
 
         private void Update()
@@ -151,12 +146,14 @@ namespace TD
             _BuildOverlay.SetTile(new Vector3Int(coords.x + _Ground.cellBounds.xMin, coords.y + _Ground.cellBounds.yMin, 0), _OverlayTileHover);
         }
 
-        private void OnMouseClick()
+        public void OnMouseClick()
         {
+            Debug.Log(1);
             if (!_BuildOverlay.gameObject.activeSelf || _LockOverlay)
             {
                 return;
             }
+            Debug.Log(2);
 
             Vector2 mousePos = Utilities.GetMouse2DWorldPosition();
 
@@ -165,28 +162,39 @@ namespace TD
             {
                 return;
             }
-
-            if (tile == null)
-            {
-            }
+            Debug.Log(3);
 
             if (tile.IsOccupied)
             {
                 return;
             }
+            Debug.Log(4);
 
             if (!tile.GetProps().TowerCanBePlaced)
             {
                 return;
             }
+            Debug.Log(5);
 
             _LockOverlay = true;
-            _MapEventsBus.OnBuilderGridClick(_Grid.GetCurrentCellCenterFromInternalPoint(mousePos));
+            _OnBuilderGridClick?.Raise(this, _Grid.GetCurrentCellCenterFromInternalPoint(mousePos));
+        }
+
+        public void BuildTowerCall(Component sender, object data)
+        {
+            if (data is not (Vector2, TowerProperties))
+            {
+                return;
+            }
+
+            (Vector2 position, TowerProperties props) = ((Vector2, TowerProperties))data;
+
+            BuildTower(position, props);
         }
 
         private void BuildTower(Vector2 position, TowerProperties props)
         {
-            // At the moment position isn't required here.
+            // NOTE: At the moment position isn't required here - remove from event??
 
             if (!_BuildOverlay.gameObject.activeSelf)
             {
@@ -220,9 +228,12 @@ namespace TD
             Tower tower = Instantiate(_TowerPrefab, new Vector3(nearestCellCenter.x, nearestCellCenter.y, 0), Quaternion.identity);
             tower.ApplySetup(props);
 
-            // TODO: Remove this - make via events
-            Player.Instance.ChangeGold(-props.Cost);
+            _BuildOverlay.SetTile(new Vector3Int(_OverlayHoverCoords.x + _Ground.cellBounds.xMin, _OverlayHoverCoords.y + _Ground.cellBounds.yMin, 0), null);
+
+            _OnTowerBuilt?.Raise(this, props);
+
             ToggleOverlay();
+
             _LockOverlay = false;
         }
     }

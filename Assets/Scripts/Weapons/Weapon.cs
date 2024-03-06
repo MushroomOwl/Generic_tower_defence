@@ -5,6 +5,7 @@ namespace TD
     public class Weapon : MonoBehaviour
     {
         [SerializeField] private WeaponProperties _WeaponProperties;
+        [SerializeField] private Projectile _ProjectilePrefab;
         [SerializeField] private SpriteRenderer _VisualModel;
 
         public WeaponProperties Loadout => _WeaponProperties;
@@ -21,33 +22,20 @@ namespace TD
             }
         }
 
-        public void Fire()
-        {
-            if (_WeaponProperties == null) return;
-
-            if (!CanFire) return;
-
-            if (!_WeaponProperties.ProjectilePrefab) return;
-
-            Projectile projectile = Instantiate(_WeaponProperties.ProjectilePrefab).GetComponent<Projectile>();
-            projectile.transform.position = transform.position;
-
-            _ReloadTimer = _WeaponProperties.ShotsPerSecond == 0 ? 1 : 1 /_WeaponProperties.ShotsPerSecond;
-        }
-
         public void Fire(Destructable target)
         {
             if (_WeaponProperties == null) return;
 
             if (!CanFire) return;
 
-            if (!_WeaponProperties.ProjectilePrefab) return;
+            if (!_ProjectilePrefab) return;
 
-            Projectile projectile = Instantiate(_WeaponProperties.ProjectilePrefab).GetComponent<Projectile>();
+            Projectile projectile = Instantiate(_ProjectilePrefab).GetComponent<Projectile>();
             projectile.transform.position = transform.position;
             projectile.transform.rotation = transform.rotation;
             projectile.ApplySetup(_WeaponProperties);
-            
+            projectile.SetTarget(target);
+
             _ReloadTimer = _WeaponProperties.ShotsPerSecond == 0 ? 1 : 1 / _WeaponProperties.ShotsPerSecond;
         }
 

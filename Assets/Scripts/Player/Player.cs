@@ -1,42 +1,59 @@
 using UnityEngine;
-using static TD.EnemiesEventsBus;
 
 namespace TD
 {
     public class Player : MonoSingleton<Player>
     {
-        [SerializeField] private PlayerEventsBus _PlayerEventsBus;
-        [SerializeField] private EnemiesEventsBus _EnemiesEventsBus;
+        [SerializeField] private GameEvent _OnPlayerGoldChanged;
+        [SerializeField] private GameEvent _OnPlayerLivesChanged;
 
         [SerializeField] private int _Gold;
-        [SerializeField] private int _NumLives;
+        public int Gold => _Gold;
 
-        public static int Gold => _Instance._Gold;
-        public static int NumLives => _Instance._NumLives;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            _EnemiesEventsBus.EnemyKilled += (object sender, OnEnemyKilledArgs args) => ChangeGold(args.reward);
-            _EnemiesEventsBus.EnemyReachedBase.AddListener(() => ChangeLives(-1));
-        }
+        [SerializeField] private int _Lives;
+        public int Lives => _Lives;
 
         private void Start()
         {
-            _PlayerEventsBus.OnGoldChanged();
-            _PlayerEventsBus.OnLivesChanged();
+            _OnPlayerGoldChanged?.Raise(this, Gold);
+            _OnPlayerLivesChanged?.Raise(this, Lives);
         }
 
         public void ChangeGold(int amount)
         {
             _Gold += amount;
-            _PlayerEventsBus.OnGoldChanged();
+            _OnPlayerGoldChanged?.Raise(this, Gold);
         }
 
         public void ChangeLives(int amount)
         {
-            _NumLives += amount;
-            _PlayerEventsBus.OnLivesChanged();
+            _Lives += amount;
+            _OnPlayerLivesChanged?.Raise(this, Lives);
+        }
+
+        public void TakeHit(Component caller, object data)
+        {
+            ChangeLives(-1);
+        }
+
+        public void PayForTower(Component caller, object data)
+        {
+            if (data is not TowerProperties)
+            {
+                return;
+            }
+            TowerProperties props = (TowerProperties)data;
+            ChangeGold(-props.Cost);
+        }
+
+        public void GetRewardForEnemy(Component caller, object data)
+        {
+            if (data is not EnemyProps)
+            {
+                return;
+            }
+            EnemyProps props = (EnemyProps)data;
+            ChangeGold(props.Reward);
         }
     }
 }

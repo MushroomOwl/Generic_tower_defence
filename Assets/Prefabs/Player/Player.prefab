@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 522871452701275558}
   - component: {fileID: 1256838648947887977}
+  - component: {fileID: 9136729419457579551}
+  - component: {fileID: 2901239972703441095}
+  - component: {fileID: 2477090975244413117}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -44,7 +47,91 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25cfe588b46e46443ace605e33e28ce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _PlayerEventsBus: {fileID: 11400000, guid: 3ae9e6408f627ba489b58f2e530b6928, type: 2}
-  _EnemiesEventsBus: {fileID: 11400000, guid: a0efc95a22765cb4580b1b40c262ff8f, type: 2}
-  _Gold: 100
-  _NumLives: 5
+  _OnPlayerGoldChanged: {fileID: 11400000, guid: 2b3c5aaf91ce00f4f84e327119d1c87c, type: 2}
+  _OnPlayerLivesChanged: {fileID: 11400000, guid: 75cadd7d4025c7e459dd89e346a5d595, type: 2}
+  _Gold: 350
+  _Lives: 5
+--- !u!114 &9136729419457579551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2210647244832346706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3070ea4930769224fabe8dd2311e8cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 25c5a9c45fe409e40aa7fbd8161ebbad, type: 2}
+  callback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1256838648947887977}
+        m_TargetAssemblyTypeName: TD.Player, Assembly-CSharp
+        m_MethodName: GetRewardForEnemy
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2901239972703441095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2210647244832346706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3070ea4930769224fabe8dd2311e8cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 7e87a27210e13fa4e862db44f1e809e3, type: 2}
+  callback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1256838648947887977}
+        m_TargetAssemblyTypeName: TD.Player, Assembly-CSharp
+        m_MethodName: TakeHit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2477090975244413117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2210647244832346706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3070ea4930769224fabe8dd2311e8cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 45864e87b03a4944eb8a428ef5a4cdd8, type: 2}
+  callback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1256838648947887977}
+        m_TargetAssemblyTypeName: TD.Player, Assembly-CSharp
+        m_MethodName: PayForTower
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

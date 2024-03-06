@@ -2,12 +2,6 @@ using UnityEngine;
 
 namespace TD
 {
-    public enum ProjectileTrajectory {
-        StrictFollow,
-        StraightLine,
-        StraightLineGround
-    }
-
     [CreateAssetMenu(fileName = "weapon_")]
     public sealed class WeaponProperties : ScriptableObject
     {
@@ -21,8 +15,8 @@ namespace TD
 
         [Header("Projectile visual model")]
 
-        [SerializeField] private Projectile _ProjectilePrefab;
-        public Projectile ProjectilePrefab => _ProjectilePrefab;
+        [SerializeField] private Sprite _ProjectileVisualModel;
+        public Sprite ProjectileVisualModel => _ProjectileVisualModel;
 
         [Header("Projectile properties")]
 
@@ -31,6 +25,12 @@ namespace TD
 
         [SerializeField] private int _PVelocity;
         public int PVelocity => _PVelocity;
+
+        [SerializeField] private int _PAngVelocity;
+        public int PAngVelocity => _PAngVelocity;
+
+        [SerializeField] private GameObject _PImpactEffect;
+        public GameObject PImpactEffect => _PImpactEffect;
 
         [SerializeField] private ProjectileTrajectory _PTrajectory;
         public ProjectileTrajectory PTrajectory => _PTrajectory;

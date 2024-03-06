@@ -41,6 +41,11 @@ namespace TD
             return camera.WorldToScreenPoint(worldPos);
         }
 
+        public static float MathfClampAbs(float value, float absMax)
+        {
+            return Mathf.Clamp(value, -absMax, absMax);
+        }
+
         public static void CloneTransform(Transform source, ref Transform dest)
         {
             dest.position = source.position;

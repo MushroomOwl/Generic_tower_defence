@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ShotsPerSecond: 0.5
   _VisualModel: {fileID: 1075361062, guid: 7b37fb7bd2549a54ebaffd9a032e192a, type: 3}
-  _ProjectilePrefab: {fileID: 7801565955737707877, guid: ac53bfb1b03aa364facff152b7ef7ae2, type: 3}
-  _PDamage: 20
-  _PVelocity: 3
+  _ProjectileVisualModel: {fileID: -200493393, guid: ba612aeb45eaaf64586ff72278df84ed, type: 3}
+  _PDamage: 25
+  _PVelocity: 4
+  _PAngVelocity: 180
+  _PImpactEffect: {fileID: 0}
   _PTrajectory: 0

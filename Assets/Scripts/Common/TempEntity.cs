@@ -5,7 +5,9 @@ namespace TD
 {
     public class TempEntity : EntityWithTimer
     {
-        private static string _TTLTimerName = "lt";
+        [SerializeField] private bool showtimer;
+
+        private static string _TTLTimerName = "ttl";
 
         [SerializeField] private float _TTL;
 

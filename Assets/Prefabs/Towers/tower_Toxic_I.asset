@@ -16,5 +16,5 @@ MonoBehaviour:
   _WeaponMountPoint: {x: 0, y: 0.7}
   _Weapon: {fileID: 11400000, guid: 1082d9f92a159c04f90136a986255047, type: 2}
   _Range: 4
-  _Cost: 35
+  _Cost: 200
   _NextLevelTower: {fileID: 0}

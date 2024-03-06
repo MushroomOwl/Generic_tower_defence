@@ -16,7 +16,8 @@ MonoBehaviour:
   _AnimController: {fileID: 9100000, guid: 9ba1dda00631bad45bfa7b15c6295a01, type: 2}
   _AnimSpeed: 1
   _Sprite: {fileID: -1032337478, guid: 481facf6c75ef6d44a365dac3448a0ef, type: 3}
+  _SpriteFlipped: 0
   _MovementSpeed: 0.6
-  _MaxHP: 100
+  _MaxHP: 500
   _Size: 1.2
-  _Reward: 30
+  _Reward: 25
