@@ -11,19 +11,22 @@ namespace TD
 
         [SerializeField] private float _TTL;
 
-        private UnityEvent _OnEnd = new UnityEvent();
-        public UnityEvent EventOnEnd => _OnEnd;
+        [SerializeField] private UnityEvent _OnTimerEnd;
 
         private void Awake()
         {
             AddTimer(_TTLTimerName, _TTL);
-            AddCallback(_TTLTimerName, () => Dispose());
+            AddCallback(_TTLTimerName, () => EOL());
         }
 
-        private void Dispose()
+        private void EOL()
         {
-            _OnEnd.AddListener(() => Destroy(gameObject));
-            _OnEnd.Invoke();
+            _OnTimerEnd.Invoke();
+        }
+
+        protected void ResetTTL()
+        {
+            ResetTimer(_TTLTimerName);
         }
     }
 }

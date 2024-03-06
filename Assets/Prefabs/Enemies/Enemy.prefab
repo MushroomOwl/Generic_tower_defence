@@ -199,10 +199,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75bb22a639002bf4d95053e6a4281f9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _Indestructable: 0
+  _OnEnemyZeroHP:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4422175663410354695}
+        m_TargetAssemblyTypeName: TD.Enemy, Assembly-CSharp
+        m_MethodName: EnemyKilled
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _MaxHitPoints: 0
-  _FractionId: 0
-  _ScoreOnDestroy: 0
+  _CurrentHitPoints: 0
+  _enemyPool: {fileID: 11400000, guid: 06f1a877fc2d8a041a3a9aabe60445af, type: 2}
   _OnEnemyKilled: {fileID: 11400000, guid: 25c5a9c45fe409e40aa7fbd8161ebbad, type: 2}
   _OnEnemyReachedGoal: {fileID: 11400000, guid: 7e87a27210e13fa4e862db44f1e809e3, type: 2}
   _Setup: {fileID: 0}

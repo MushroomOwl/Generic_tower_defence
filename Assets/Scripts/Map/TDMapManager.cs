@@ -148,12 +148,10 @@ namespace TD
 
         public void OnMouseClick()
         {
-            Debug.Log(1);
             if (!_BuildOverlay.gameObject.activeSelf || _LockOverlay)
             {
                 return;
             }
-            Debug.Log(2);
 
             Vector2 mousePos = Utilities.GetMouse2DWorldPosition();
 
@@ -162,19 +160,16 @@ namespace TD
             {
                 return;
             }
-            Debug.Log(3);
 
             if (tile.IsOccupied)
             {
                 return;
             }
-            Debug.Log(4);
 
             if (!tile.GetProps().TowerCanBePlaced)
             {
                 return;
             }
-            Debug.Log(5);
 
             _LockOverlay = true;
             _OnBuilderGridClick?.Raise(this, _Grid.GetCurrentCellCenterFromInternalPoint(mousePos));

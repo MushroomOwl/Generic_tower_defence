@@ -25,7 +25,9 @@ namespace TD
 
         public void SetPath(AreaPath2D path)
         {
+            _CurrentPoint = 0;
             _PatrolPath = path;
+            _Destination = Vector2.zero;
         }
 
         protected override void FixedUpdate()
@@ -64,7 +66,7 @@ namespace TD
                 if (_CurrentPoint >= _PatrolPath.Length - 1)
                 {
                     _Enemy.GoalReached();
-                    Destroy(gameObject);
+                    _Enemy.DestroySelf();
                     return;
                 } else
                 {

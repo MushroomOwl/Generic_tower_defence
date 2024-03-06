@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d68e747ad8f26c46a9d8015ceb589f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _projectiePrefab: {fileID: 7801565955737707877, guid: 58187e57f78327949958965b121ffafd, type: 3}
   _WeaponProperties: {fileID: 11400000, guid: ab53622dfde0a8e46a0159129106b16d, type: 2}
-  _ProjectilePrefab: {fileID: 7801565955737707877, guid: 58187e57f78327949958965b121ffafd, type: 3}
   _VisualModel: {fileID: 6332027812542167301}
 --- !u!1 &2296790120823050329
 GameObject:

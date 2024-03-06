@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TD
 {
-    public class Player : MonoSingleton<Player>
+    public class Player : MonoBehaviour
     {
         [SerializeField] private GameEvent _OnPlayerGoldChanged;
         [SerializeField] private GameEvent _OnPlayerLivesChanged;

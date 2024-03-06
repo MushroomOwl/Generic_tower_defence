@@ -9,8 +9,10 @@ namespace TD
         StraightLineGround
     }
 
-    public class Projectile : TempEntity
+    public class Projectile : TempEntity, IPoolable<Projectile>, ICustomPrototype<Projectile>
     {
+        [SerializeField] private ProjectilePool _projectilePool;
+
         [SerializeField] private float _Velocity;
         [SerializeField] private float _AngularVelocityDeg;
         [SerializeField] private int _Damage;
@@ -37,6 +39,11 @@ namespace TD
         {
             _Target = target;
             _TargetPositionOnFire = target.gameObject.transform.position;
+        }
+
+        private void OnEnable()
+        {
+            ResetTTL();
         }
 
         private void Update()
@@ -139,7 +146,32 @@ namespace TD
                 Instantiate(_ImpactEffect, gameObject.transform.position, Quaternion.identity);
             }
 
-            Destroy(gameObject);
+            DestroySelf();
+        }
+
+        public void OnGetFromPool()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void OnReleaseToPool()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void OnDestroyInPool()
+        {
+            DestroySelf();
+        }
+
+        public Projectile CloneSelf()
+        {
+            return _projectilePool.PoolStantiate();
+        }
+
+        public void DestroySelf()
+        {
+            _projectilePool.PoolStroy(this);
         }
     }
 }

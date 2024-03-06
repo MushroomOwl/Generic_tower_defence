@@ -4,8 +4,10 @@ using UnityEngine;
 namespace TD
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Enemy: Destructable
+    public class Enemy: Destructable, IPoolable<Enemy>, ICustomPrototype<Enemy>
     {
+        [SerializeField] private EnemyPool _enemyPool;
+
         [SerializeField] private GameEvent _OnEnemyKilled;
         [SerializeField] private GameEvent _OnEnemyReachedGoal;
 
@@ -29,8 +31,12 @@ namespace TD
             
             ChangeMaxHP(_Setup.MaxHP);
             transform.localScale = new Vector3(_Setup.Size, _Setup.Size, _Setup.Size);
+        }
 
-            _OnHPZero.AddListener(() => _OnEnemyKilled.Raise(this, _Setup));
+        public void EnemyKilled()
+        {
+            _OnEnemyKilled.Raise(this, _Setup);
+            DestroySelf();
         }
 
         public void MakeAStep(Vector2 direction)
@@ -53,6 +59,31 @@ namespace TD
         public void GoalReached()
         {
             _OnEnemyReachedGoal?.Raise(this, null);
+        }
+
+        public void OnGetFromPool()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void OnReleaseToPool()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void OnDestroyInPool()
+        {
+            DestroySelf();
+        }
+
+        public Enemy CloneSelf()
+        {
+            return _enemyPool.PoolStantiate();
+        }
+
+        public void DestroySelf()
+        {
+            _enemyPool.PoolStroy(this);
         }
     }
 

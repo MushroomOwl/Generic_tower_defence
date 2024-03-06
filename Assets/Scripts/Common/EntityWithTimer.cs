@@ -85,7 +85,7 @@ namespace TD
 
         protected virtual void FixedUpdate()
         {
-            // To avoid error when timer keys changed due to event
+            // To avoid error when timer keys changed due to event.
             List<string> keys = _Timers.Keys.ToList<string>();
 
             foreach (var timerName in keys)

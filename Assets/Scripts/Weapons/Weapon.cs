@@ -4,8 +4,9 @@ namespace TD
 {
     public class Weapon : MonoBehaviour
     {
+        [SerializeField] private Projectile _projectiePrefab;
+
         [SerializeField] private WeaponProperties _WeaponProperties;
-        [SerializeField] private Projectile _ProjectilePrefab;
         [SerializeField] private SpriteRenderer _VisualModel;
 
         public WeaponProperties Loadout => _WeaponProperties;
@@ -28,9 +29,9 @@ namespace TD
 
             if (!CanFire) return;
 
-            if (!_ProjectilePrefab) return;
+            if (!_projectiePrefab) return;
 
-            Projectile projectile = Instantiate(_ProjectilePrefab).GetComponent<Projectile>();
+            Projectile projectile = _projectiePrefab.CloneSelf().GetComponent<Projectile>();
             projectile.transform.position = transform.position;
             projectile.transform.rotation = transform.rotation;
             projectile.ApplySetup(_WeaponProperties);

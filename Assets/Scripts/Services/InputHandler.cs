@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace TD
 {
-    public class InputHandler : MonoSingleton<InputHandler>
+    public class InputHandler : MonoBehaviour
     {
         [SerializeField] private GameEvent _OnLMBClick;
         [SerializeField] private GameEvent _OnBuildGridCall;

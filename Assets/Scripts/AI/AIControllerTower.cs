@@ -39,7 +39,7 @@ namespace TD
 
         void TargetingActions()
         {
-            if (_Target != null)
+            if (_Target != null && _Target.gameObject != null && _Target.gameObject.activeSelf)
             {
                 _Tower.TurnTurretTowards(_Target.transform.position);
                 _Tower.Fire(_Target);
@@ -56,7 +56,7 @@ namespace TD
 
         void FindTarget()
         {
-            if (_Target != null)
+            if (_Target != null && _Target.gameObject != null && _Target.gameObject.activeSelf)
             {
                 return;
             }

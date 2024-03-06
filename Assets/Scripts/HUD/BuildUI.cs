@@ -19,7 +19,6 @@ namespace TD
 
         private void Awake()
         {
-            Debug.Log(DateTime.Now);
             _PanelsAnchorTransform = _PanelsAnchor.GetComponent<RectTransform>();
 
             foreach (var props in _Towers)

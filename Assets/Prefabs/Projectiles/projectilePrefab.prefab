@@ -129,10 +129,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b029c8ebd58ac740a2f642491425549, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showtimer: 0
   _TTL: 3
+  _OnTimerEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7801565955737707877}
+        m_TargetAssemblyTypeName: TD.Projectile, Assembly-CSharp
+        m_MethodName: DestroySelf
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _projectilePool: {fileID: 11400000, guid: acfa3c4d149a14641bac133a5ebee645, type: 2}
   _Velocity: 0
   _AngularVelocityDeg: 0
   _Damage: 0
-  _Source: {fileID: 0}
+  _Target: {fileID: 0}
+  _TargetPositionOnFire: {x: 0, y: 0, z: 0}
+  _Trajectory: 0
   _VisualModel: {fileID: 1564036859522723193}
-  _HasCollider: 0
+  _ImpactEffect: {fileID: 0}
