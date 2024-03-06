@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,10 @@ namespace TD
         private static string _MainMenuSceneName = "MainMenu";
 
         [SerializeField] private GameEvent _OnPauseGame;
+        [SerializeField] private GameEvent _OnLevelLoad;
+
+        private bool _initiateSceneLoad = false;
+        private Action _sceneLoadAction = null;
 
         public void StopTime()
         {
@@ -43,8 +48,20 @@ namespace TD
 
         public void LoadLevel(string name)
         {
+            _sceneLoadAction = () => SceneManager.LoadScene(name);
+            _initiateSceneLoad = true;
+        }
+
+        private void LateUpdate()
+        {
+            if (!_initiateSceneLoad)
+            {
+                return;
+            }
+
+            _OnLevelLoad?.Raise(this, null);
+            _sceneLoadAction();
             ResumeTime();
-            SceneManager.LoadScene(name);
         }
 
         public void RestartCurrentLevel()
@@ -54,8 +71,7 @@ namespace TD
 
         public void LoadMainMenu()
         {
-            ResumeTime();
-            SceneManager.LoadScene(_MainMenuSceneName);
+            LoadLevel(_MainMenuSceneName);
         }
 
         public void ExitGame()

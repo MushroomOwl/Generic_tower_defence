@@ -161,7 +161,7 @@ namespace TD
 
         public void OnDestroyInPool()
         {
-            DestroySelf();
+            Destroy(gameObject);
         }
 
         public Projectile CloneSelf()

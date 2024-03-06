@@ -16,3 +16,4 @@ MonoBehaviour:
   _enabled: 0
   _capacity: 50
   _maxSize: 300
+  _onLevelLoad: {fileID: 11400000, guid: 03df4f6e8d548ee41a807ca7cac4ea95, type: 2}

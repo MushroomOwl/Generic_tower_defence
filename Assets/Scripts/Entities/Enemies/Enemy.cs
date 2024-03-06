@@ -73,7 +73,7 @@ namespace TD
 
         public void OnDestroyInPool()
         {
-            DestroySelf();
+            Destroy(gameObject);
         }
 
         public Enemy CloneSelf()

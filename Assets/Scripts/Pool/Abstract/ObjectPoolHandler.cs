@@ -1,15 +1,47 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.SceneManagement;
 
 namespace TD
 {
-    public class ObjectPoolHandler<T>: ScriptableObject where T : MonoBehaviour, IPoolable<T>
+    public class ObjectPoolHandler<T> : ScriptableObject where T : MonoBehaviour, IPoolable<T>
     {
+        private class SimpleListener : IGameEventListener
+        {
+            private Action _onEventAction;
+
+            public SimpleListener(Action action)
+            {
+                _onEventAction = action;
+            }
+
+            public void OnRaiseEvent(Component caller, object data)
+            {
+                _onEventAction();
+            }
+        }
+
         private ObjectPool<T> _pool;
+        private SimpleListener _levelEndListener;
         [SerializeField] private T _prefab;
         [SerializeField] private bool _enabled;
         [SerializeField] private int _capacity = 10;
         [SerializeField] private int _maxSize = 10000;
+        [SerializeField] private GameEvent _onLevelLoad;
+
+        public void OnEnable()
+        {
+            _pool = new ObjectPool<T>(CreateInstance, OnGetFromPool, OnReleaseToPool, OnDestroyInPool, true, _capacity, _maxSize);
+
+            _levelEndListener = new SimpleListener(Flush);
+            _onLevelLoad.Subscribe(_levelEndListener);
+        }
+
+        private void OnDisable()
+        {
+            _onLevelLoad.Unsubscribe(_levelEndListener);
+        }
 
         public T PoolStantiate()
         {
@@ -21,9 +53,9 @@ namespace TD
             _pool.Release(instance);
         }
 
-        public void OnEnable()
+        private void Flush()
         {
-            _pool = new ObjectPool<T>(CreateInstance, OnGetFromPool,OnReleaseToPool, OnDestroyInPool, true, _capacity, _maxSize);
+            _pool.Dispose();
         }
 
         private T CreateInstance()
@@ -36,6 +68,7 @@ namespace TD
         {
             instance.OnGetFromPool();
         }
+
         private void OnReleaseToPool(T instance)
         {
             instance.OnReleaseToPool();

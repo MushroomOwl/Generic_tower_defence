@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _OnPauseGame: {fileID: 11400000, guid: 422d656e6ce851b40bd810c51e82d437, type: 2}
+  _OnLevelLoad: {fileID: 11400000, guid: 03df4f6e8d548ee41a807ca7cac4ea95, type: 2}
 --- !u!114 &1949711725133088922
 MonoBehaviour:
   m_ObjectHideFlags: 0

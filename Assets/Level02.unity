@@ -608,7 +608,7 @@ MonoBehaviour:
   _SpawnsAtOnce: 1
   _MaxSpawns: 1000
   _RespawnTime: 10
-  _EnemyPrefab: {fileID: 4422175663410354695, guid: 113b095e56e098e4b9eb35dbe1d98084, type: 3}
+  _enemyPrefab: {fileID: 4422175663410354695, guid: 113b095e56e098e4b9eb35dbe1d98084, type: 3}
   _EnemyPropsList:
   - {fileID: 11400000, guid: 1c8e1247e932aaf4997a9ea38b165be6, type: 2}
   _PatrolPath: {fileID: 305427635}
@@ -6150,7 +6150,7 @@ MonoBehaviour:
   _SpawnsAtOnce: 1
   _MaxSpawns: 1000
   _RespawnTime: 5
-  _EnemyPrefab: {fileID: 4422175663410354695, guid: 113b095e56e098e4b9eb35dbe1d98084, type: 3}
+  _enemyPrefab: {fileID: 4422175663410354695, guid: 113b095e56e098e4b9eb35dbe1d98084, type: 3}
   _EnemyPropsList:
   - {fileID: 11400000, guid: 41561ad5a577c0c43b74c550203cb5de, type: 2}
   _PatrolPath: {fileID: 924198743}
