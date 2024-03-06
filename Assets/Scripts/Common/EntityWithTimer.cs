@@ -48,7 +48,7 @@ namespace TD
 
         protected bool ResetTimer(string timerName)
         {
-            if (!_Timers.ContainsKey(name))
+            if (!_Timers.ContainsKey(timerName))
             {
                 return false;
             }
