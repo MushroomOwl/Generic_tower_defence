@@ -61,6 +61,8 @@ namespace TD
                 return;
             }
 
+            _Target = null;
+
             float minSqrDistance = 10000;
             float sqrDetectionRange = _Radius * _Radius;
             foreach (var target in Destructable.AllDestructables)
