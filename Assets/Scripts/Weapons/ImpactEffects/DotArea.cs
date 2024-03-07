@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TD
 {
     [RequireComponent(typeof(Collider2D))]
-    internal class DotArea : TempEntity
+    internal class DotArea : TempEntity, ICustomPrototype<DotArea>
     {
         [SerializeField] private float _TickTime;
         [SerializeField] private int _TickDamage;
@@ -67,6 +67,16 @@ namespace TD
         private void OnDestroy()
         {
             RemoveTimer(_TickTimer);
+        }
+
+        public DotArea CloneSelf()
+        {
+            return Instantiate(this);
+        }
+
+        public void DestroySelf()
+        {
+            Destroy(gameObject);
         }
     }
 }

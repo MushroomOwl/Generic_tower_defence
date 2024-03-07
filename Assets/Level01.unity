@@ -906,7 +906,7 @@ MonoBehaviour:
   _SpawnsAtOnce: 20
   _MaxSpawns: 1000
   _RespawnTime: 4
-  _EnemyPrefab: {fileID: 4422175663410354695, guid: 113b095e56e098e4b9eb35dbe1d98084, type: 3}
+  _enemyPrefab: {fileID: 4422175663410354695, guid: 113b095e56e098e4b9eb35dbe1d98084, type: 3}
   _EnemyPropsList:
   - {fileID: 11400000, guid: 8fbb8cf4e80d1d449a4c06d7b2e8bd88, type: 2}
   _PatrolPath: {fileID: 924198743}
