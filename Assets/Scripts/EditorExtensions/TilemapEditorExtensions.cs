@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 
 namespace TD
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(Tilemap))]
     public class TilemapEditorExtensions : Editor
     {
@@ -19,4 +20,5 @@ namespace TD
             }
         }
     }
+#endif
 }

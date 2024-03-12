@@ -10,6 +10,7 @@ namespace TD
 
         [SerializeField] private GameEvent _OnPauseGame;
         [SerializeField] private GameEvent _OnLevelLoad;
+        [SerializeField] private GameEvent _OnSceneLoad;
 
         private bool _initiateSceneLoad = false;
         private Action _sceneLoadAction = null;
@@ -21,12 +22,12 @@ namespace TD
 
         public void FinishLevel()
         {
-            Debug.Log("Not Implemented");
+            Debug.LogWarning("Not Implemented");
         }
 
         public void FailLevel()
         {
-            Debug.Log("Not Implemented");
+            Debug.LogWarning("Not Implemented");
         }
 
         public void ResumeTime()
@@ -52,6 +53,27 @@ namespace TD
             _initiateSceneLoad = true;
         }
 
+        public void LevelLoadCallback(Component caller, object data)
+        {
+            if (data is not LevelProperties)
+            {
+                return;
+            }
+            LevelProperties props = (LevelProperties)data;
+
+            LoadLevel(props.Scene);
+        }
+
+        public void SceneLoadCallback(Component caller, object data)
+        {
+            if (data is not string)
+            {
+                return;
+            }
+
+            LoadLevel((string)data);
+        }
+
         private void LateUpdate()
         {
             if (!_initiateSceneLoad)
@@ -67,6 +89,11 @@ namespace TD
         public void RestartCurrentLevel()
         {
             LoadLevel(SceneManager.GetActiveScene().name);
+        }
+
+        public void RestartCurrentLevelCallback(Component caller, object data)
+        {
+            RestartCurrentLevel();
         }
 
         public void LoadMainMenu()

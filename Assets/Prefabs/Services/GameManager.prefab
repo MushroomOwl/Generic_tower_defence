@@ -13,6 +13,9 @@ GameObject:
   - component: {fileID: 1949711725133088922}
   - component: {fileID: 381081729682442932}
   - component: {fileID: 386525410638271225}
+  - component: {fileID: 1981641381945958067}
+  - component: {fileID: 8769630724439163391}
+  - component: {fileID: 808628649264980442}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -49,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _OnPauseGame: {fileID: 11400000, guid: 422d656e6ce851b40bd810c51e82d437, type: 2}
   _OnLevelLoad: {fileID: 11400000, guid: 03df4f6e8d548ee41a807ca7cac4ea95, type: 2}
+  _OnSceneLoad: {fileID: 0}
 --- !u!114 &1949711725133088922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,7 +99,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 188088835632587809}
         m_TargetAssemblyTypeName: TD.GameManager, Assembly-CSharp
-        m_MethodName: RestartCurrentLevel
+        m_MethodName: StopTime
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -118,6 +122,90 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameEvent: {fileID: 11400000, guid: a6f5664cc91e58046b579891415a13eb, type: 2}
+  callback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 188088835632587809}
+        m_TargetAssemblyTypeName: TD.GameManager, Assembly-CSharp
+        m_MethodName: StopTime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1981641381945958067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347298623102552399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3070ea4930769224fabe8dd2311e8cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: bfd743fa3b60f9346be42879331b7796, type: 2}
+  callback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 188088835632587809}
+        m_TargetAssemblyTypeName: TD.GameManager, Assembly-CSharp
+        m_MethodName: LevelLoadCallback
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8769630724439163391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347298623102552399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3070ea4930769224fabe8dd2311e8cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: eccf0ea6c406a25448d039b27df6ee29, type: 2}
+  callback:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 188088835632587809}
+        m_TargetAssemblyTypeName: TD.GameManager, Assembly-CSharp
+        m_MethodName: SceneLoadCallback
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &808628649264980442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1347298623102552399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3070ea4930769224fabe8dd2311e8cf7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 0c23ba0637ca9694b843c547480bc315, type: 2}
   callback:
     m_PersistentCalls:
       m_Calls:

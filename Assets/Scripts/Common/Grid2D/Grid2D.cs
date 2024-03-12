@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
 
 namespace TD
@@ -127,11 +128,30 @@ namespace TD
             return GetCellValue(x, y);
         }
 
+        public bool IsCordsInside(Vector2Int coords)
+        {
+            if (coords.x >= 0 && coords.x < _Dimensions.x &&
+                coords.y >= 0 && coords.y < _Dimensions.y)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public TCellObject this[int x, int y]
         {
             get
             {
                 return GetCellValue(x, y);
+            }
+        }
+
+        public TCellObject this[Vector2Int coords]
+        {
+            get
+            {
+                return GetCellValue(coords.x, coords.y);
             }
         }
 
