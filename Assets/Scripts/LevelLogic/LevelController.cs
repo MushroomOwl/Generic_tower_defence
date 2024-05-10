@@ -1,19 +1,20 @@
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 namespace TD
 {
+    /// <summary>
+    /// Component that handles global level events on scene and manages conditions to fail or complete level
+    /// </summary>
     public class LevelController : MonoBehaviour
     {
-        [SerializeField] private GameEvent _OnLevelFailed;
-        [SerializeField] private GameEvent _OnLevelCleared;
+        [SerializeField] private GameEvent _onLevelFailed;
+        [SerializeField] private GameEvent _onLevelCleared;
 
-        [SerializeField] private LevelCondition[] _WinConditions;
-        [SerializeField] private LevelCondition[] _LoseConditions;
+        [SerializeField] private LevelCondition[] _completionConditions;
+        [SerializeField] private LevelCondition[] _failureConditions;
 
-        [SerializeField] private LevelProperties _LevelProps;
+        [SerializeField] private LevelProperties _levelProps;
 
         public bool IsLevelFailed { get; private set; }
         public bool IsLevelCleared { get; private set; }
@@ -23,35 +24,55 @@ namespace TD
             IsLevelFailed = false;
             IsLevelCleared = false;
 
-            foreach (var condition in _WinConditions)
+            // Attach event listeners to conditions
+            foreach (var condition in _completionConditions)
             {
                 condition.ConditionValueChanged.AddListener(CheckLevelCompletion);
             }
-            foreach (var condition in _LoseConditions)
+            foreach (var condition in _failureConditions)
             {
-                condition.ConditionValueChanged.AddListener(CheckLevelLosing);
+                condition.ConditionValueChanged.AddListener(CheckLevelFailure);
             }
         }
 
+        private void OnDestroy()
+        {
+            // Detach event listeners to avoid memory leaks
+            foreach (var condition in _completionConditions)
+            {
+                condition.ConditionValueChanged.RemoveListener(CheckLevelCompletion);
+            }
+            foreach (var condition in _failureConditions)
+            {
+                condition.ConditionValueChanged.RemoveListener(CheckLevelFailure);
+            }
+        }
+
+        /// <summary>
+        /// Here, completion checker conditions are evaluated through AND operator.
+        /// Only if all conditions are met, the level is considered completed.
+        /// </summary>
         private void CheckLevelCompletion()
         {
-            bool isCleared = _WinConditions.All(c => c.Fulfilled);
-
+            bool isCleared = _completionConditions.All(c => c.Fulfilled);
             if (isCleared && !IsLevelCleared)
             {
                 IsLevelCleared = true;
-                _OnLevelCleared?.Raise(this, null);
+                _onLevelCleared?.Raise(this, null);
             }
         }
 
-        private void CheckLevelLosing()
+        /// <summary>
+        /// Here, failure checker conditions are evaluated through OR operator.
+        /// If any failure occurs, the level is considered failed.
+        /// </summary>
+        private void CheckLevelFailure()
         {
-            bool isFailed = _LoseConditions.Any(c => c.Fulfilled);
-
+            bool isFailed = _failureConditions.Any(c => c.Fulfilled);
             if (isFailed && !IsLevelFailed)
             {
                 IsLevelFailed = true;
-                _OnLevelFailed?.Raise(this, null);
+                _onLevelFailed?.Raise(this, null);
             }
         }
     }
